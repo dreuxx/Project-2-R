@@ -28,7 +28,7 @@ def cross(a, b):
 
 atoms = []
 backbone = []
-for line in (ROOT / "assets/data/1EHZ.pdb").read_text().splitlines():
+for line in (ROOT / "public/assets/data/1EHZ.pdb").read_text().splitlines():
     if not line.startswith(("ATOM  ", "HETATM")) or line[21] != "A":
         continue
     residue = int(line[22:26])
@@ -62,10 +62,7 @@ def orient(position):
 points = [{"residue": atom["residue"],
            "position": [round(value, 4) for value in orient(atom["position"])]}
           for atom in backbone]
-(ROOT / "assets/data/structure.js").write_text(
-    "// C4′ carbons from chain A, PDB 1EHZ.\nconst rnaPoints = "
-    + json.dumps(points, separators=(",", ":")) + ";\n"
-)
+(ROOT / "src/data/structure.json").write_text(json.dumps(points, indent=2) + "\n")
 
 
 def svg_open(width, height, title, description):
@@ -96,7 +93,7 @@ for (x, y, z), atom in projected:
     svg.append(f'<circle cx="{360 + x * scale:.2f}" cy="{350 + y * scale:.2f}" '
                f'r="{radius * scale:.2f}" fill="url(#{color})"/>')
 svg.append('</svg>')
-(ROOT / "assets/images/trna-molecule.svg").write_text("\n".join(svg))
+(ROOT / "public/assets/images/trna-molecule.svg").write_text("\n".join(svg))
 
 svg = svg_open(640, 500, "Path of the tRNA strand",
                "The 76 points follow the C4′ carbons of PDB 1EHZ; "
@@ -116,5 +113,5 @@ for index, point in enumerate(points):
                   'fill="#dce7b8" stroke="#273e32" stroke-width="1.5"/>'))
 svg.extend(markup for _, markup in sorted(items, key=lambda item: item[0]))
 svg.append('</svg>')
-(ROOT / "assets/images/trna-backbone.svg").write_text("\n".join(svg))
-print(f"Built two SVGs and structure.js from {len(atoms)} atoms and {len(points)} C4′ positions.")
+(ROOT / "public/assets/images/trna-backbone.svg").write_text("\n".join(svg))
+print(f"Built two SVGs and structure.json from {len(atoms)} atoms and {len(points)} C4′ positions.")

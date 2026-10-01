@@ -1,8 +1,8 @@
-# Project 1 Copy to change  Vite + React
+# Migración de Project 1 a Project 2: Vite + React
 
 ## Objetivo
 
-Este proyecto es una copia de **Project 1**. Se conservará como punto de partida, pero se transformará de un sitio estático HTML/CSS/JavaScript a una aplicación creada con **Vite + React** para cumplir los siguientes requisitos:
+Este proyecto parte de **Project 1** y se está migrando para convertirse en **Project 2**. El sitio estático HTML/CSS/JavaScript se transformará en una aplicación creada con **Vite + React** para cumplir los siguientes requisitos:
 
 1. **Vite + React:** usar un proyecto scaffolded con Vite. El servidor de desarrollo y el build de producción deben funcionar correctamente.
 2. **Componentes:** crear al menos cinco componentes en archivos separados y organizarlos en un árbol de componentes coherente. Como mínimo, dos componentes deben recibir y utilizar `props`.
@@ -15,13 +15,13 @@ Este proyecto es una copia de **Project 1**. Se conservará como punto de partid
 	- **Build command:** `npm run build`
 	- **Publish directory:** `dist`
 
-## Cambios previstos respecto a Project 2
+## Cambios previstos para Project 2
 
 - Migrar la entrada HTML y la lógica existente a una estructura de aplicación React.
 - Configurar `package.json` y Vite para disponer de los scripts `dev`, `build` y `preview`.
 - Separar la interfaz en cinco o más componentes reutilizables dentro de archivos propios.
 - Convertir las interacciones actuales en estado React con `useState`, incluyendo un input controlado y una vista condicional.
-- Mantener el contenido y el diseño responsive de Project 2, adaptando los estilos para que funcionen con los componentes React.
+- Mantener el contenido y el diseño responsive de Project 1, adaptando los estilos para que funcionen con los componentes React.
 - Verificar el build de producción y preparar el despliegue en Netlify usando `dist` como carpeta publicada.
 
 ## Desarrollo local
