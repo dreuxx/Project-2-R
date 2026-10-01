@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Size review — RNA in 3D</title>
+    <style>
+      body { margin: 20px; background: #ddd; color: #222; font: 16px Arial, sans-serif; }
+      h1 { font-size: 20px; }
+      .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 20px 0; }
+      button, select { min-height: 40px; font: inherit; }
+      iframe { display: block; height: 820px; border: 0; background: #fff; }
+      pre { white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Size review</h1>
+    <p>The page loads inside a frame at the selected width.</p>
+    <div class="controls">
+      <label for="width">Width</label>
+      <select id="width">
+        <option value="375">375 px</option>
+        <option value="768">768 px</option>
+        <option value="1280" selected>1280 px</option>
+      </select>
+      <button id="measure" type="button">Measure overflow</button>
+      <button id="full-height" type="button">Show full page</button>
+      <label><input id="no-js" type="checkbox" /> Disable JavaScript</label>
+    </div>
+    <pre id="result" role="status">Choose a width and click Measure overflow.</pre>
+    <iframe id="preview" title="RNA page" src="../index.html" width="1280"></iframe>
+    <script>
+      const frame = document.querySelector('#preview');
+      const result = document.querySelector('#result');
+      document.querySelector('#width').addEventListener('change', (event) => {
+        frame.width = event.target.value;
+        frame.style.height = '820px';
+        result.textContent = 'Width changed. Measure again.';
+      });
+      document.querySelector('#measure').addEventListener('click', () => {
+        try {
+          const root = frame.contentDocument.documentElement;
+          result.textContent = JSON.stringify({
+            viewport: root.clientWidth,
+            content: root.scrollWidth,
+            overflow: root.scrollWidth > root.clientWidth
+          }, null, 2);
+        } catch {
+          result.textContent = 'Open this tool through a server or on Netlify to measure it.';
+        }
+      });
+      document.querySelector('#full-height').addEventListener('click', () => {
+        try {
+          frame.style.height = frame.contentDocument.documentElement.scrollHeight + 'px';
+        } catch {
+          result.textContent = 'Open this tool through a server or on Netlify.';
+        }
+      });
+      document.querySelector('#no-js').addEventListener('change', (event) => {
+        if (event.target.checked) frame.setAttribute('sandbox', 'allow-same-origin');
+        else frame.removeAttribute('sandbox');
+        frame.src = '../index.html?preview=' + (event.target.checked ? 'sin-js' : 'con-js');
+      });
+    </script>
+  </body>
+</html>
