@@ -3,9 +3,35 @@ import MoleculeViewer from "./MoleculeViewer";
 import ViewerControls from "./ViewerControls";
 import ModelNotes from "./ModelNotes";
 
+import ObservationForm from "./ObservationForm";
+import ObservationList from "./ObservationList";
+
 export default function MolecularLab() {
   const [rotation, setRotation] = useState(0);
   const [highlighted, setHighlighted] = useState(false);
+
+  const [observations, setObservations] = useState([]);
+
+  function saveObservation(text) {
+    const observation = {
+      id: crypto.randomUUID(),
+      text,
+      rotation,
+      highlighted,
+    };
+    setObservations((current) => [...current, observation]);
+  }
+
+  function removeObservation(id) {
+    setObservations((current) =>
+      current.filter((observation) => observation.id !== id),
+    );
+  }
+
+  function restoreObservation(observation) {
+    setRotation(observation.rotation);
+    setHighlighted(observation.highlighted);
+  }
 
   function rotateStep() {
     setRotation((current) =>
@@ -44,6 +70,18 @@ export default function MolecularLab() {
           />
         </MoleculeViewer>
         <ModelNotes rotation={rotation} highlighted={highlighted} />
+      </div>
+      <div className="notebook-grid">
+        <ObservationForm
+          rotation={rotation}
+          highlighted={highlighted}
+          onSave={saveObservation}
+        />
+        <ObservationList
+          observations={observations}
+          onRemove={removeObservation}
+          onRestore={restoreObservation}
+        />
       </div>
     </section>
   );
