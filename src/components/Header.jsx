@@ -8,9 +8,13 @@ const links = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia("(max-width: 640px)").matches,
+  );
   const menuButton = useRef(null);
   const navigation = useRef(null);
   const firstLink = useRef(null);
+  const pendingFocus = useRef(null);
 
   useEffect(() => {
     const mobileScreen = window.matchMedia("(max-width: 640px)");
@@ -19,13 +23,23 @@ export default function Header() {
         document.activeElement,
       );
       const focusWasOnButton = document.activeElement === menuButton.current;
+      pendingFocus.current =
+        mobileScreen.matches && focusWasInMenu
+          ? menuButton.current
+          : !mobileScreen.matches && focusWasOnButton
+            ? firstLink.current
+            : null;
+      setIsMobile(mobileScreen.matches);
       setMenuOpen(false);
-      if (mobileScreen.matches && focusWasInMenu) menuButton.current.focus();
-      if (!mobileScreen.matches && focusWasOnButton) firstLink.current.focus();
     }
     mobileScreen.addEventListener("change", handleResize);
     return () => mobileScreen.removeEventListener("change", handleResize);
   }, []);
+
+  useEffect(() => {
+    pendingFocus.current?.focus();
+    pendingFocus.current = null;
+  }, [isMobile]);
 
   function closeMenu() {
     if (window.matchMedia("(max-width: 640px)").matches) {
@@ -55,6 +69,7 @@ export default function Header() {
         <button
           ref={menuButton}
           className="menu-toggle"
+          hidden={!isMobile}
           type="button"
           aria-expanded={menuOpen}
           aria-controls="nav-links"
@@ -64,7 +79,8 @@ export default function Header() {
         </button>
         <ul
           ref={navigation}
-          className={`nav-links${menuOpen ? " is-open" : ""}`}
+          className="nav-links"
+          hidden={isMobile && !menuOpen}
           id="nav-links"
         >
           {links.map((link) => (

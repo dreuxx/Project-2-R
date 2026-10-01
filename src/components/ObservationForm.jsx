@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function ObservationForm({ rotation, highlighted, onSave }) {
   const [note, setNote] = useState("");
   const [feedback, setFeedback] = useState("");
   const [hasError, setHasError] = useState(false);
+  const noteInput = useRef(null);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -11,12 +12,14 @@ export default function ObservationForm({ rotation, highlighted, onSave }) {
     if (!text) {
       setHasError(true);
       setFeedback("Write a short observation before saving.");
+      noteInput.current.focus();
       return;
     }
     onSave(text);
     setNote("");
     setHasError(false);
     setFeedback("Observation saved with the current view.");
+    noteInput.current.focus();
   }
 
   return (
@@ -29,6 +32,7 @@ export default function ObservationForm({ rotation, highlighted, onSave }) {
       </p>
       <label htmlFor="observation-text">Observation</label>
       <textarea
+        ref={noteInput}
         id="observation-text"
         rows="4"
         maxLength={240}
