@@ -1073,3 +1073,18 @@ h1 em {
     text-decoration: underline;
   }
 }
+
+.type-panel + .type-panel {
+  margin-top: 0;
+}
+@media (max-width: 640px) {
+  .menu-toggle {
+    display: inline-flex;
+  }
+  .nav-links {
+    display: none;
+  }
+  .nav-links.is-open {
+    display: flex;
+  }
+}

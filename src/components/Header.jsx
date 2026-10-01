@@ -1,6 +1,48 @@
+import { useEffect, useRef, useState } from "react";
+
+const links = [
+  { id: "explorar", number: "01", label: "Explore" },
+  { id: "conceptos", number: "02", label: "The essentials" },
+  { id: "tipos", number: "03", label: "Types of RNA" },
+];
+
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef(null);
+  const navigation = useRef(null);
+  const firstLink = useRef(null);
+
+  useEffect(() => {
+    const mobileScreen = window.matchMedia("(max-width: 640px)");
+    function handleResize() {
+      const focusWasInMenu = navigation.current.contains(
+        document.activeElement,
+      );
+      const focusWasOnButton = document.activeElement === menuButton.current;
+      setMenuOpen(false);
+      if (mobileScreen.matches && focusWasInMenu) menuButton.current.focus();
+      if (!mobileScreen.matches && focusWasOnButton) firstLink.current.focus();
+    }
+    mobileScreen.addEventListener("change", handleResize);
+    return () => mobileScreen.removeEventListener("change", handleResize);
+  }, []);
+
+  function closeMenu() {
+    if (window.matchMedia("(max-width: 640px)").matches) {
+      setMenuOpen(false);
+      menuButton.current.focus({ preventScroll: true });
+    }
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === "Escape" && menuOpen) {
+      setMenuOpen(false);
+      menuButton.current.focus();
+    }
+  }
+
   return (
-    <header className="site-header">
+    <header className="site-header" onKeyDown={handleKeyDown}>
       <nav className="site-nav page-width" aria-label="Main navigation">
         <a className="brand" href="#inicio" aria-label="RNA in 3D, home">
           <svg viewBox="0 0 32 40" width="28" height="36" aria-hidden="true">
@@ -10,23 +52,33 @@ export default function Header() {
             RNA<span className="brand-subtitle">IN THREE DIMENSIONS</span>
           </span>
         </a>
-
-        <ul className="nav-links" id="nav-links">
-          <li>
-            <a href="#explorar">
-              <span>01</span> Explore
-            </a>
-          </li>
-          <li>
-            <a href="#conceptos">
-              <span>02</span> The essentials
-            </a>
-          </li>
-          <li>
-            <a href="#tipos">
-              <span>03</span> Types of RNA
-            </a>
-          </li>
+        <button
+          ref={menuButton}
+          className="menu-toggle"
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="nav-links"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          Menu <span aria-hidden="true">{menuOpen ? "−" : "+"}</span>
+        </button>
+        <ul
+          ref={navigation}
+          className={`nav-links${menuOpen ? " is-open" : ""}`}
+          id="nav-links"
+        >
+          {links.map((link) => (
+            <li key={link.id}>
+              <a
+                ref={link.id === "explorar" ? firstLink : null}
+                href={`#${link.id}`}
+                onClick={closeMenu}
+              >
+                <span>{link.number}</span>
+                {link.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>
