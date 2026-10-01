@@ -1,54 +1,54 @@
-# Migración de Project 1 a Project 2: Vite + React
+# Migration from Project 1 to Project 2: Vite + React
 
-## Objetivo
+## Goal
 
-Este proyecto parte de **Project 1** y se está migrando para convertirse en **Project 2**. El sitio estático HTML/CSS/JavaScript se transformará en una aplicación creada con **Vite + React** para cumplir los siguientes requisitos:
+This project starts from **Project 1** and is being migrated into **Project 2**. The original static HTML/CSS/JavaScript site has been transformed into a **Vite + React** application with the following requirements:
 
-1. **Vite + React:** usar un proyecto scaffolded con Vite. El servidor de desarrollo y el build de producción deben funcionar correctamente.
-2. **Componentes:** crear al menos cinco componentes en archivos separados y organizarlos en un árbol de componentes coherente. Como mínimo, dos componentes deben recibir y utilizar `props`.
-3. **Estado:** implementar al menos tres piezas independientes de `useState` que produzcan cambios visibles en pantalla.
-4. **Listas y keys:** renderizar al menos una colección con `map` y utilizar una `key` estable y apropiada, no el índice del array cuando los elementos puedan reordenarse.
-5. **Renderizado condicional:** mostrar, ocultar o cambiar una parte de la interfaz según el estado de la aplicación.
-6. **Input controlado:** incluir al menos un campo de formulario cuyo valor viva en el estado de React y se actualice mediante `onChange`.
-7. **Estado elevado:** compartir al menos un estado entre dos componentes mediante un componente padre común.
-8. **Netlify:** desplegar la aplicación en Netlify con la siguiente configuración:
-	- **Build command:** `npm run build`
-	- **Publish directory:** `dist`
+1. **Vite + React:** use a Vite-scaffolded project. Both the development server and the production build must work correctly.
+2. **Components:** create at least five components in separate files and organize them into a sensible component tree. At least two components must receive and use `props`.
+3. **State:** implement at least three independent pieces of `useState` that produce visible changes on screen.
+4. **Lists and keys:** render at least one collection with `map` and use a stable, appropriate `key`, rather than the array index when items can be reordered.
+5. **Conditional rendering:** show, hide, or change part of the interface based on application state.
+6. **Controlled input:** include at least one form field whose value lives in React state and updates through `onChange`.
+7. **Lifted state:** share at least one piece of state between two components through a common parent.
+8. **Netlify:** deploy the application to Netlify with the following configuration:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
 
-## Cambios previstos para Project 2
+## Changes for Project 2
 
-- Migrar la entrada HTML y la lógica existente a una estructura de aplicación React.
-- Configurar `package.json` y Vite para disponer de los scripts `dev`, `build` y `preview`.
-- Separar la interfaz en cinco o más componentes reutilizables dentro de archivos propios.
-- Convertir las interacciones actuales en estado React con `useState`, incluyendo un input controlado y una vista condicional.
-- Mantener el contenido y el diseño responsive de Project 1, adaptando los estilos para que funcionen con los componentes React.
-- Verificar el build de producción y preparar el despliegue en Netlify usando `dist` como carpeta publicada.
+- Migrate the existing HTML entry point and logic into a React application structure.
+- Configure `package.json` and Vite with the `dev`, `build`, and `preview` scripts.
+- Separate the interface into five or more reusable components in their own files.
+- Convert the existing interactions to React state with `useState`, including a controlled input and conditional views.
+- Preserve the content and responsive design from Project 1 while adapting the styles to work with React components.
+- Verify the production build and deploy the application to Netlify using `dist` as the publish directory.
 
-## Desarrollo local
+## Local development
 
-Instalar las dependencias y arrancar el servidor de Vite:
+Install the dependencies and start the Vite development server:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Para comprobar el build de producción:
+To check the production build:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-La aplicación estará disponible en la URL local que indique Vite, normalmente `http://localhost:5173/`.
+The application will be available at the local URL shown by Vite, usually `http://localhost:5173/`.
 
-## Despliegue
+## Deployment
 
-El proyecto se desplegará en Netlify con:
+The project is deployed on Netlify with:
 
 ```text
 Build command: npm run build
 Publish directory: dist
 ```
 
-**URL pública:** se añadirá aquí después de completar el despliegue en Netlify.
+**Public URL:** https://project2-react1.netlify.app/
