@@ -1,6 +1,6 @@
-.DS_Store
-Thumbs.db
-__pycache__/
+node_modules/
+dist/
+.env
+.env.*
 .netlify/
-*.zip
-*.bundle
+.DS_Store
